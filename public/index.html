@@ -30,36 +30,10 @@
 
         checkIE();
 
-        async function checkCookie() {
-            if (localStorage.getItem("accept_cookie") !== "true") {
-                document.getElementById("gdpr-cookie-message").style.display = 'block';
-            }
-        }
-
-        async function closeCookie() {
-            localStorage.setItem("accept_cookie", "true");
-            document.getElementById("gdpr-cookie-message").style.display = "none";
-        }
-
-        window.onload = function () {
-            checkCookie();
-        };
     </script>
 </head>
 
 <body>
-    <div id="gdpr-cookie-message" style="display: none">
-        <h4>&#x1F36A; Cookies &amp; Privacidade</h4>
-        <p>
-            Este site utiliza cookies e tecnologias semelhantes para melhorar sua experiência e para outros fins. Por
-            favor, consulte nossa Política de Cookies para mais informações.
-        </p>
-        <p>
-            <a href="%PUBLIC_URL%/documents/politica_de_privacidade.pdf" target="_blank"
-                rel="noopener noreferrer">Mais informações</a>
-            <button id="gdpr-cookie-accept" type="button" onClick="closeCookie()">Aceitar</button>
-        </p>
-    </div>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
 </body>
