@@ -126,6 +126,7 @@ body {
 .restart:hover {
     color: rgb(209, 209, 209);
     transition: 0.2s linear;
+    cursor: pointer;
 }
 .marvel, .studios {
     position: relative;

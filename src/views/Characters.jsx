@@ -21,15 +21,20 @@ class Characters extends React.Component {
 	}
 
 	async getCharacters() {
-		const response = await api.get('characters?apikey=4ca5dd91f3a5a38201caa02dc995cce5&hash=5f789ffc79d090d9616ce7482c04acec&ts=4&limit=10', {
+		const response = await api.get('characters?apikey=4ca5dd91f3a5a38201caa02dc995cce5&hash=5f789ffc79d090d9616ce7482c04acec&ts=4&limit=20', {
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		})
         
-        
 		if(response.data.data) {
 			this.setState({ characters: response.data.data.results })
+		}
+
+		const images = document.getElementsByTagName('img')
+
+		for(var img of images) {
+			img.setAttribute('draggable', 'false')
 		}
 	}
 

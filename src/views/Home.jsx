@@ -1,41 +1,20 @@
 import React from 'react'
-import api from '../services/api'
 import { Animated } from 'react-animated-css'
 import { Icon } from 'react-materialize'
 import Menu from '../components/Menu'
 import { Link } from 'react-router-dom'
 
 class Home extends React.Component {
-	constructor() {
-		super()
-
-		this.state = {
-			cities: null
-		}
-	}
-
 	componentDidMount() {
-		document.title = 'Home - Clientes Cidades'
+		document.title = 'Home - Marvel'
 
-		//this.getcities()
 		this.runAnimation()
-	}
-
-	async getcities() {
-		const response = await api.get('client/count-city')
-
-		if(response.data.success) {
-			this.setState({
-				cities: response.data.success
-			})
-		}
 	}
 
 	runAnimation(e) {
 		const element = document.getElementById('animate')
         
 		if (element) {
-			// reset the transition by...
 			if(e) {
 				e.preventDefault()
 			}
