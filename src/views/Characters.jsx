@@ -21,7 +21,7 @@ class Characters extends React.Component {
 	}
 
 	async getCharacters() {
-		const response = await api.get('characters?apikey=4ca5dd91f3a5a38201caa02dc995cce5&hash=5f789ffc79d090d9616ce7482c04acec&ts=4&limit=20', {
+		const response = await api.get('characters?limit=20', {
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -43,12 +43,11 @@ class Characters extends React.Component {
 
 		return (
 			<Layout>
-				{
-					characters ?
-						<Row className="container center-align">
-							<Animated animationIn="fadeIn" animationInDuration={300}>
-								<Col
-								>
+				<div className="background-red">
+					{
+						characters ?
+							<Row className="container center-align">
+								<Animated animationIn="fadeIn" animationInDuration={300}>
 									{
 										characters && characters.length > 0 ?
 											characters.map((character, key) => (
@@ -57,30 +56,28 @@ class Characters extends React.Component {
 													l={4}
 													m={6}
 													s={12}
+													className="cards-home"
 												>
 													<Card
-														className="responsive-card"
-														closeIcon={<Icon>close</Icon>}
-														header={<CardTitle image={character.thumbnail.path + '.' + character.thumbnail.extension} reveal waves="light"/>}
-														reveal={<p>{character.description}</p>}
+														className="responsive-card hoverable"
+														header={<CardTitle image={character.thumbnail.path + '.' + character.thumbnail.extension}/>}
+														actions={[<Link className="red-text text-darken-4" key={1} to={`/character/${character.id}`}>Ver personagem</Link>]}
 														revealIcon={<Icon>more_vert</Icon>}
-														title={character.name}
+														closeIcon={<Icon>close</Icon>}
 													>
-														<Link to={`/character/${character.id}`}>
-                                                                Ver personagem
-														</Link>
+														{character.name}
 													</Card>
 												</Col>
 											))
 											:
 											null
 									}
-								</Col>
-							</Animated>
-						</Row>
-						:
-						null
-				}
+								</Animated>
+							</Row>
+							:
+							null
+					}
+				</div>
 			</Layout>
 		)             
 	}
