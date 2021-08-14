@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,700&subset=latin-ext');
 
 *{
     margin: 0;
     padding: 0;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Quicksand', sans-serif;
+    --gray-text: #868686
 }
 
 body {
@@ -13,7 +14,7 @@ body {
 }
 
 ::-moz-selection {
-    color: white;
+    color: #9b9b9b;
     background: black;
 }
 
@@ -50,10 +51,25 @@ body {
     margin-top: 5px;
 }
 
+.top-profile-img {
+    position: absolute;
+    top: 0px;
+    margin: auto;
+    min-height: 20vh;
+    width: 100% !important;
+    object-fit: none;
+}
+
+.btn-sidenav {
+    position: absolute;
+    top: 1.8rem;
+    left: 1rem;
+    z-index: 2;
+    color: white;
+}
+
 .layout-pages {
     padding-top: 80px !important;
-    background-color: #5c1818;
-    background-image: linear-gradient(62deg, #5c1818 0%, #ff0000 100%);
     height: 100%;
     width: 100%;  
     position: fixed;
@@ -174,11 +190,13 @@ body {
     font-weight: 500;
     letter-spacing: -0.3rem;
     transform: translateX(-95px);
+    font-family: 'Barlow Condensed', sans-serif;
 }
 .marvel {
     z-index: 10;
     font-weight: 800;
     transform: translateX(95px);
+    font-family: 'Barlow Condensed', sans-serif;
 }
 .marvel:before {
     z-index: -10;
@@ -452,3 +470,75 @@ body {
 	--button-bits-color-hover: #ece8e1;
 }
 /* END BOTÃO HOME */
+
+.char-name {
+    font-size: 1.8rem;
+    color: var(--gray-text);
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.char-description {
+    color: var(--gray-text);
+    width: 80%;
+    margin: 15px auto;
+}
+
+.char-id {
+    color: var(--gray-text);
+}
+
+.divider {
+    margin: 20px;
+}
+
+.series-number {
+    font-size: xx-large;
+    font-weight: 600;
+    color: var(--gray-text);
+}
+
+.char-profile {
+    margin-top: 15vh;
+}
+
+.profile-img {
+    position: relative;
+    margin-top: -11vh;
+    box-shadow: 5px 8px 15px;
+    width: 15%;
+}
+
+.list-series {
+    padding: 10px 0 10px 0;
+}
+
+.char-profile {
+    margin-top: 15vh;
+}
+
+.profile-img {
+    width: 35%;
+}
+
+@media screen and (min-width: 700px) {
+    .profile-img {
+        width: 30%;
+    }
+}
+
+@media screen and (min-width: 1365px) {
+    .profile-img {
+        width: 30%;
+    }
+
+    .char-profile {
+        margin-top: 18vh;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .char-profile {
+        margin-top: 20vh;
+    }
+}

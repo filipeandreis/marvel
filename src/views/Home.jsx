@@ -1,7 +1,7 @@
 import React from 'react'
 import { Animated } from 'react-animated-css'
 import { Icon } from 'react-materialize'
-import Menu from '../components/Menu'
+import Menu from '../components/NavBar'
 import { Link } from 'react-router-dom'
 
 class Home extends React.Component {

@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Menu from '../components/Menu.jsx'
+import Menu from '../components/NavBar.jsx'
 import Loader from '../components/Loader.jsx'
+import Footer from '../components/Footer'
 
 const Default = ({ children }) => {
 	return (
@@ -9,6 +10,7 @@ const Default = ({ children }) => {
 			<Loader />
 			<Menu />
 			{ children }
+			<Footer />
 		</div>
 	)
 }
