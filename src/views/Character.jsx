@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, CardPanel, Divider } from 'react-materialize'
+import { Row, Col, CardPanel, Divider, Button } from 'react-materialize'
 import Layout from '../layouts/default'
 import api from '../services/api'
 import { Animated } from 'react-animated-css'
@@ -9,7 +9,11 @@ class Character extends React.Component {
 	constructor() {
 		super()
 		this.state = {
-			character: {}
+			character: {},
+			series: [],
+			seriesPage: 0,
+			seriesOffset: 0,
+			lockBtnLoadMore: true
 		}
 	}
 
@@ -25,20 +29,48 @@ class Character extends React.Component {
 				'Content-Type': 'application/json'
 			}
 		})
-        
-		console.log(response.data.data.results[0])
-        
+                
 		if(response.data.data) {
 			this.setState({ character: response.data.data.results[0] })
 
 			document.title = `${response.data.data.results[0].name} - Marvel`
+
+			this.getCharacterSeries(id)
 		} else {
 			this.props.history.push('/characters')
 		}
 	}
 
+	async getCharacterSeries(id) {
+		this.setState({
+			lockBtnLoadMore: true,
+			seriesOffset: this.state.seriesOffset + this.state.seriesPage,
+			seriesPage: this.state.seriesPage + 20
+		})
+
+		const response = await api.get(`characters/${id}/series?limit=${this.state.seriesPage}&offset=${this.state.seriesOffset}&orderBy=-modified`, {
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+                
+		if(response.data.data) {
+			if(response.data.data.results.length < 20) {
+				this.setState({
+					series: this.state.series.concat(response.data.data.results),
+					lockBtnLoadMore: true
+				})
+			} else {
+				this.setState({
+					series: this.state.series.concat(response.data.data.results),
+					lockBtnLoadMore: false
+				})
+			}
+		}
+	}
+
 	render() {
-		const { character } = this.state
+		const { character, series } = this.state
 
 		return (
 			<Layout>
@@ -61,7 +93,7 @@ class Character extends React.Component {
 									className="center-align"
 								>
 									<img
-										className="profile-img circle"
+										className="profile-img"
 										draggable="false"
 										src={character.thumbnail.path + '.' + character.thumbnail.extension}
 									/>
@@ -85,19 +117,27 @@ class Character extends React.Component {
 											<p>Series</p>
 											<Divider />
 											{
-												character.series.available > 0 ?
-													character.series.items.map((serie, key)=>(
-                                                        
+												series && series.length > 0 ?
+													series.map((serie, key)=>(
 														<p
 															key={`serie-${key}`}
 															className="list-series"
 														>
-															{serie.name}
+															{serie.title}
 														</p>
 													))
 													:
 													null
 											}
+											<Row>
+												<Button
+													waves="light"
+													onClick={() => {this.getCharacterSeries(this.props.match.params.id)}}
+													disabled={this.state.lockBtnLoadMore}
+												>
+                                                    Carregar mais
+												</Button>
+											</Row>
 										</CardPanel>
 									</Col>
 								</Row>

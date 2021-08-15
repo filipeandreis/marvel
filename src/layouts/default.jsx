@@ -9,7 +9,11 @@ const Default = ({ children }) => {
 		<div className="layout-pages">
 			<Loader />
 			<Menu />
-			{ children }
+			<main>
+				<div className="sticky-footer">
+					{ children }
+				</div>
+			</main>
 			<Footer />
 		</div>
 	)

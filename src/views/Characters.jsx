@@ -9,7 +9,9 @@ class Characters extends React.Component {
 	constructor() {
 		super()
 		this.state = {
-			characters: []
+			characters: [],
+			page: 21,
+			offset: 0
 		}
 	}
 
@@ -17,17 +19,21 @@ class Characters extends React.Component {
 		document.title = 'Personagens - Marvel'
 
 		this.getCharacters()
+		this.setIntersectionObserver()
 	}
 
 	async getCharacters() {
-		const response = await api.get('characters?limit=20', {
+		const response = await api.get(`characters?orderBy=-modified&limit=${this.state.page}&offset=${this.state.offset}`, {
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		})
+
         
 		if(response.data.data) {
-			this.setState({ characters: response.data.data.results })
+			this.setState({
+				characters: this.state.characters.concat(response.data.data.results)
+			})
 		}
 
 		const images = document.getElementsByTagName('img')
@@ -35,6 +41,23 @@ class Characters extends React.Component {
 		for(var img of images) {
 			img.setAttribute('draggable', 'false')
 		}
+	}
+
+	async setIntersectionObserver() {
+		const intersectionObserver = new IntersectionObserver((entries) => {
+			if(this.state.characters.length > 0 && entries.some((entry) => entry.isIntersecting)) {
+				this.setState({
+					offset: this.state.offset + this.state.page,
+					page: this.state.page + 21
+				})
+
+				this.getCharacters()
+			}
+		})
+
+		intersectionObserver.observe(document.getElementById('loadMore'))
+
+		return () => intersectionObserver.disconnect()
 	}
 
 	render() {
@@ -71,6 +94,7 @@ class Characters extends React.Component {
 										null
 								}
 							</Animated>
+							<span id="loadMore">...</span>
 						</Row>
 						:
 						null
