@@ -36,7 +36,7 @@ class Home extends React.Component {
 						<div className="logo">
 
 							<span className="marvel">Marvel</span>
-							<span className="studios">Studios</span>
+							<span className="studios">Personagens</span>
 
 							<div>
 								<Icon small onClick={(e) => this.runAnimation(e)} className="restart">replay</Icon>

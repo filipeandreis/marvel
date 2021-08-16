@@ -1,41 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-<head>
-    <title>Marvel - Personagens</title>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="author" content="Filipe Cara Andreis">
-    <meta name="description" content="Sistema para visualização de informações de personagens Marvel">
-    <meta name="keywords" content="Marvel">
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-icon.png" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="stylesheet" href="%PUBLIC_URL%/main.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <script>
-        function checkIE() {
-            var ua = window.navigator.userAgent;
-            var msie = ua.indexOf("MSIE ");
-            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
-                if (window.navigator.userAgent.match(/Windows.*10./)) {
-                    document.write("O seu navegador é incompatível com este site! <a style='color: blue' href='start https://unibolsa.ftec.com.br'>Clique aqui para abrir em outro navegador.</a>");
-                    window.location.href = 'microsoft-edge:https://unibolsa.ftec.com.br';
-                } else {
-                    document.write("O seu navegador é incompatível com este site utilize outro navegador para acessar!");
-                }
-            }
-        }
+    <head>
+        <title>Marvel - Personagens</title>
+        <meta charset="utf-8" />
+        <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
+        <meta name="author" content="Filipe Cara Andreis">
+        <meta name="description" content="Sistema para visualização de informações de personagens Marvel">
+        <meta name="keywords" content="Marvel">
+        <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-icon.png" />
+        <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+        <link rel="stylesheet" href="%PUBLIC_URL%/main.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    </head>
 
-        checkIE();
-
-    </script>
-</head>
-
-<body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-</body>
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root"></div>
+    </body>
 
 </html>
