@@ -7,21 +7,38 @@ import Layout from '../layouts/default'
 import api from '../services/api'
 import { Animated } from 'react-animated-css'
 import backgroundImage from '../assets/images/background-profile.png'
+import { connect } from 'react-redux'
 
-const Character = (props) => {
-	const [id] = React.useState(props.match.params.id)
+const Character = ({ match, characters }) => {
+	const [id] = React.useState(match.params.id)
 	const [character, setCharacter] = React.useState({})
 	const [series, setSeries] = React.useState([])
 	const [seriesPage, setSeriesPage] = React.useState(20)
 	const [seriesOffset, setSeriesOffset] = React.useState(0)
 	const [lockBtnLoadMore, setLockBtnLoadMore] = React.useState(true)
 
-    
 	React.useEffect(() => {
 		document.title = 'Personagem - Marvel'
 
-		getCharacterInfo(id)
+		if(characters.items[0]) {
+			const char = characters.items.find((character) => character.id == match.params.id)
+
+			if (char) {
+				setCharacter(char)
+			} else {
+				getCharacterInfo(id)
+			}
+		} else {
+			getCharacterInfo(id)
+		}
+
 	}, [])
+
+	React.useEffect(() => {
+		if(character.id) {
+			getCharacterSeries(id)
+		}
+	}, [character, seriesPage])
 
 	async function getCharacterInfo(id) {
 		const response = await api.get(`characters/${id}?`, {
@@ -34,8 +51,6 @@ const Character = (props) => {
 			setCharacter(response.data.data.results[0])
 
 			document.title = `${response.data.data.results[0].name} - Marvel`
-
-			getCharacterSeries(id)
 		} else {
 			<Redirect to="/characters" />
 		}
@@ -50,37 +65,19 @@ const Character = (props) => {
                 
 		if(response.data.data) {
 			if(response.data.data.results.length < 20) {
-				setSeries(response.data.data.results)
-				setSeriesOffset((currentSeriesOffset) => currentSeriesOffset + seriesPage)
+				setSeries((currentSeries) => currentSeries.concat(response.data.data.results))
 				setLockBtnLoadMore(true)
 			} else {
-				setSeries(response.data.data.results)
-				setSeriesOffset((currentSeriesOffset) => currentSeriesOffset + seriesPage)
+				setSeries((currentSeries) => currentSeries.concat(response.data.data.results))
 				setLockBtnLoadMore(false)
 			}
 		}
 	}
 
-	async function getMoreSeries(id) {
+	async function getMoreSeries() {
 		setLockBtnLoadMore(true)
 		setSeriesOffset((currentSeriesOffset) => currentSeriesOffset + seriesPage)
 		setSeriesPage((currentSeriesPage) => currentSeriesPage + 20)
-        
-		const response = await api.get(`characters/${id}/series?limit=${seriesPage}&offset=${seriesOffset}&orderBy=-modified`, {
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		})
-                
-		if(response.data.data) {
-			if(response.data.data.results.length < 20) {
-				setSeries((currentSeries) => currentSeries.concat(response.data.data.results))
-				setLockBtnLoadMore(true)
-			} else {
-				setSeries((currentSeries) => currentSeries.concat(response.data.data.results))
-				setLockBtnLoadMore(false)
-			}
-		}
 	}
 
 	return (
@@ -170,7 +167,8 @@ const Character = (props) => {
 }
 
 Character.propTypes = {
-	match: PropTypes.object
+	match: PropTypes.object,
+	characters: PropTypes.object
 }
 
-export default Character
+export default connect( state => ({ characters: state.characters }) )(Character)

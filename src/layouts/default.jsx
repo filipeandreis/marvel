@@ -10,7 +10,7 @@ const Default = ({ children }) => {
 			<Loader />
 			<Menu />
 			<main>
-				<div className="sticky-footer">
+				<div className="center-align sticky-footer">
 					{ children }
 				</div>
 			</main>

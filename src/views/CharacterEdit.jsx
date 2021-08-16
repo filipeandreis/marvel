@@ -1,20 +1,63 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import api from '../services/api'
 import { Row, Col, CardPanel, Button, TextInput } from 'react-materialize'
 import Layout from '../layouts/default'
 import { Animated } from 'react-animated-css'
 import { connect } from 'react-redux'
+import M from 'materialize-css'
 import * as CharacterActions from '../store/actions/character'
 import backgroundImage from '../assets/images/background-profile.png'
 
-const Character = ({ character, dispatch }) => {
+const CharacterEdit = ({ match, characters, dispatch }) => {
+	const [character, setCharacter] = React.useState({})
+
 	React.useEffect(() => {
 		document.title = 'Editar Personagem - Marvel'
+
+		const stateChar = characters.items.find((character) => character.id == match.params.id)
+
+		if(stateChar) {
+			setCharacter(stateChar)
+		} else {
+			getCharacterInfo(match.params.id)
+		}
+
 	}, [])
+
+	async function getCharacterInfo(id) {
+		const response = await api.get(`characters/${id}?`, {
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+                
+		if(response.data.data) {
+			setCharacter(response.data.data.results[0])
+		} else {
+			<Redirect to="/characters" />
+		}
+	}
     
-	const [name, setName] = React.useState(character.name)
-	const [description, setDescription] = React.useState(character.description)
+
+	function handleChange({ id, value }) {
+		setCharacter((currentCharacter) => ({...currentCharacter, [id]: value}))
+	}
+
+	async function save() {
+		dispatch(CharacterActions.setCharacters([character]))
+
+		M.toast({
+			classes: 'green darken-2',
+			html:`
+                <p>
+                    Personagem salvo!
+                </p>
+            `
+		})
+	}
     
 	return (
 		<Layout>
@@ -54,21 +97,21 @@ const Character = ({ character, dispatch }) => {
 												s={12}
 												id="name"
 												label="Nome"
-												value={name}
-												onChange={({ target }) => setName(target.value)}
+												value={character.name}
+												onChange={({ target }) => handleChange(target)}
 											/>
 											<TextInput
 												s={12}
 												id="description"
 												label="Descrição"
-												value={description}
-												onChange={({ target }) => setDescription(target.value)}
+												value={character.description}
+												onChange={({ target }) => handleChange(target)}
 											/>
 										</Row>
 										<Row>
 											<Button
 												waves="light"
-												onClick={() => { dispatch(CharacterActions.toggleCharacters({...character, name, description})) }}
+												onClick={() => { save() }}
 											>
                                             Salvar
 											</Button>
@@ -93,9 +136,10 @@ const Character = ({ character, dispatch }) => {
 		</Layout>
 	)}
 
-Character.propTypes = {
-	character: PropTypes.object,
-	dispatch: PropTypes.func
+CharacterEdit.propTypes = {
+	characters: PropTypes.object,
+	dispatch: PropTypes.func,
+	match: PropTypes.object
 }
 
-export default connect( state => ({ character: state.character }) )(Character)
+export default connect( state => ({ characters: state.characters }) )(CharacterEdit)

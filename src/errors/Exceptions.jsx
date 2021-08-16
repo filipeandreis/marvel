@@ -19,9 +19,9 @@ export class RequestException {
 	}
 }
 
-export class ClientException {
+export class CharacterException {
 	constructor(message) {
-		this.name = 'ClientException'
+		this.name = 'CharacterException'
 		this.message = message
 		this.throwMessage = function() {
 			M.toast({

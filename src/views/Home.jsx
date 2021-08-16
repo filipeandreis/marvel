@@ -4,14 +4,14 @@ import { Icon } from 'react-materialize'
 import Menu from '../components/NavBar'
 import { Link } from 'react-router-dom'
 
-class Home extends React.Component {
-	componentDidMount() {
+const Home = () => {
+	React.useEffect(() => {
 		document.title = 'Home - Marvel'
 
-		this.runAnimation()
-	}
+		runAnimation()
+	})
 
-	runAnimation(e) {
+	function runAnimation(e) {
 		const element = document.getElementById('animate')
         
 		if (element) {
@@ -27,40 +27,38 @@ class Home extends React.Component {
 		}
 	}
     
-	render() {
-		return (
-			<div className="body-home">
-				<Menu />
-				<Animated animationIn="fadeIn" animationInDuration={300} style={{ overflow: 'hidden' }}>
-					<div className="wrapper run-animation" id="animate">
-						<div className="logo">
+	return (
+		<div className="body-home">
+			<Menu />
+			<Animated animationIn="fadeIn" animationInDuration={300} style={{ overflow: 'hidden' }}>
+				<div className="wrapper run-animation" id="animate">
+					<div className="logo">
 
-							<span className="marvel">Marvel</span>
-							<span className="studios">Personagens</span>
+						<span className="marvel">Marvel</span>
+						<span className="studios">Personagens</span>
 
-							<div>
-								<Icon small onClick={(e) => this.runAnimation(e)} className="restart">replay</Icon>
-								<br/>
-								<br/>
-							</div>
-                            
-							<Animated animationIn="fadeInUpBig" animationInDuration={2000} animationInDelay={2000}>
-								<Link style={{color: 'white'}} to='/characters'>
-									<button className="btn-home">
-										<span className="btn__inner">
-											<span className="btn__slide" />
-											<span className="btn__content">Ver personagens</span>
-										</span>
-									</button>
-								</Link>
-							</Animated>
+						<div>
+							<Icon small onClick={(e) => runAnimation(e)} className="restart">replay</Icon>
+							<br/>
+							<br/>
 						</div>
+                        
+						<Animated animationIn="fadeInUpBig" animationInDuration={2000} animationInDelay={2000}>
+							<Link style={{color: 'white'}} to='/characters'>
+								<button className="btn-home">
+									<span className="btn__inner">
+										<span className="btn__slide" />
+										<span className="btn__content">Ver personagens</span>
+									</span>
+								</button>
+							</Link>
+						</Animated>
 					</div>
-					<div className="images"></div>
-				</Animated>
-			</div>
-		)
-	}
+				</div>
+				<div className="images"></div>
+			</Animated>
+		</div>
+	)
 }
 
 export default Home

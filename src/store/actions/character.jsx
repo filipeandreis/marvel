@@ -5,9 +5,10 @@ export function setCharacters(characters) {
 	}
 }
 
-export function setOffset(offset) {
+export function setPageAndOffset(page, offset) {
 	return {
-		type: 'SET_OFFSET',
+		type: 'SET_PAGE',
+		page,
 		offset
 	}
 }

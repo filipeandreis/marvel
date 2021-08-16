@@ -1,5 +1,6 @@
 const initialState = {
 	items: [],
+	page: 1,
 	offset: 0
 }
 
@@ -7,22 +8,22 @@ export default function character(state = initialState, action) {
 	if(action.type === 'SET_CHARACTER') {
 		return {
 			...state,
-			items: state.items.concat(action.characters)
+			items: action.characters
 		}
 	}
 
-	else if(action.type === 'SET_OFFSET') {
+	else if(action.type === 'SET_PAGE') {
 		return {
 			...state,
-			offset: state.offset + action.offset
+			page: action.page,
+			offset: action.offset
 		}
 	}
 
 	else if(action.type === 'EDIT_CHARACTER') {
 		return {
 			...state,
-			name: action.name,
-			description: action.description
+			items: state.items.concat(action.character)
 		}
 	}
 
