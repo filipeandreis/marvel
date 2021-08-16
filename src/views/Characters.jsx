@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Row, Col, Icon, Card, CardTitle, TextInput } from 'react-materialize'
+import { Row, Col, Icon, Card, CardTitle, TextInput, Button } from 'react-materialize'
 import Layout from '../layouts/default'
 import api from '../services/api'
 import { Animated } from 'react-animated-css'
@@ -10,6 +10,7 @@ import * as CharacterActions from '../store/actions/character'
 
 const Characters = ({ characters, dispatch }) => {
 	const [offset, setOffset] = React.useState(characters.offset)
+	const [params, setParams] = React.useState({ })
 
 	React.useEffect(() => {
 		document.title = 'Personagens - Marvel'
@@ -35,6 +36,28 @@ const Characters = ({ characters, dispatch }) => {
 		}
 	}
 
+	async function getCharactersFilter(params) {
+		var url = `characters?orderBy=-modified&limit=${21}&offset=${offset}`
+
+		if(params) {
+			for(var param of params) {
+				url.concat(`&${param}`)
+			}
+		}
+
+		const response = await api.get(url, {
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+
+		if(response.data.data) {
+			dispatch(
+				CharacterActions.setCharacters(response.data.data.results)
+			) 
+		}
+	}
+
 	async function setIntersectionObserver() {
 		const intersectionObserver = new IntersectionObserver((entries) => {
 			if(entries.some((entry) => entry.isIntersecting)) {
@@ -48,6 +71,10 @@ const Characters = ({ characters, dispatch }) => {
 		return () => intersectionObserver.disconnect()
 	}
 
+	function handleParams({id, value}) {
+		setParams((currentParams) => ({...currentParams, [id]: value}))
+	}
+
 	return (
 		<Layout>
 			{
@@ -59,13 +86,23 @@ const Characters = ({ characters, dispatch }) => {
 								m={6}
 								s={12}
 								offset="l4 m3"
+								className="center-align"
 							>
 								<TextInput
 									s={12}
 									icon={<Icon>search</Icon>}
-									id="search"
+									id="name"
 									label="Buscar"
+									value={params.name}
+									onChange={(e) => handleParams(e.target)}
 								/>
+								<Button
+									waves="light"
+									flat
+									onClick={() => getCharactersFilter()}
+								>
+                                    Buscar
+								</Button>
 							</Col>
 						</Row>
 						<Row className="container center-align">
@@ -95,7 +132,6 @@ const Characters = ({ characters, dispatch }) => {
 					:
 					null
 			}
-			<span id="loadMore">...</span>
 		</Layout>
 	)             
 }

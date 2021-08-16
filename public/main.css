@@ -86,7 +86,7 @@ main {
 }
 
 .layout-pages {
-    padding-top: 80px !important;
+    padding-top: 100px !important;
     height: 100%;
     width: 100%;  
     position: fixed;
@@ -581,4 +581,8 @@ main {
 .input-field input:focus {
     border-bottom: 1px solid var(--red-darken) !important;
     box-shadow: 0 1px 0 0 var(--red-darken) !important;
+}
+
+.material-icons.active {
+    color: var(--red-darken) !important;
 }
