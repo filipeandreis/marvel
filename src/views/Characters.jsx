@@ -8,49 +8,24 @@ import { Animated } from 'react-animated-css'
 import { connect } from 'react-redux'
 import * as CharacterActions from '../store/actions/character'
 
-const Characters = ({ location, characters, dispatch }) => {
-	const [params, setParams] = React.useState([{}])
-	
-    
-	const paramsBusca = new URLSearchParams(location.search)
-    
-	for (let p of paramsBusca) {
-		console.log(p)
-	}
-
+const Characters = ({ characters, dispatch }) => {
 	React.useEffect(() => {
 		document.title = 'Personagens - Marvel'
-	}, [])
+	})
 
 	React.useEffect(() => {
 		getCharacters()
-	}, [characters.page])
+	}, [characters.page, characters.filter])
     
 	async function getCharacters() {
-		const response = await api.get(`characters?orderBy=-modified&limit=${9}&offset=${characters.offset}`, {
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		})
-
-		if(response.data.data) {
-			dispatch(CharacterActions.setCharacters(response.data.data.results)) 
-		}
-	}
-
-	async function getCharactersFilter(e) {
-		e.preventDefault()
+		var url = `characters?orderBy=-modified&limit=${9}&offset=${characters.offset}`
         
-		var baseUrl = `characters?orderBy=-modified&limit=${21}&offset=${characters.offset}`
-		var url = ''
-
-		if(params) {
-			for(var param of params) {
-				console.log(param)
-				url = baseUrl.concat(`&${param.name}=${param.value}`)
+		if(characters.filter[0] && characters.filter[0].name) {
+			for(var param of characters.filter) {
+				url = url.concat(`&${param.name}=${param.value}`)
 			}
 		}
-        
+
 		const response = await api.get(url, {
 			headers: {
 				'Content-Type': 'application/json'
@@ -58,51 +33,56 @@ const Characters = ({ location, characters, dispatch }) => {
 		})
 
 		if(response.data.data) {
-			dispatch(
-				CharacterActions.setCharacters(response.data.data.results)
-			) 
+			dispatch(CharacterActions.setCharacters(response.data.data.results, response.data.data.total))
 		}
 	}
 
 	async function handlePagination(value) {
 		if(value === 1) {
-			dispatch(
-				CharacterActions.setPageAndOffset(value, 0)
-			)
-
+			dispatch(CharacterActions.setPageAndOffset(value, 0))
 		} else {
-			dispatch(
-				CharacterActions.setPageAndOffset(value, (value-1) * 9)
-			)
+			dispatch(CharacterActions.setPageAndOffset(value, (value-1) * 9))
 		}
 	}
 
 	function handleParams({id, value}) {
-		const param = params.find((param) => param.name == id)
+		dispatch(CharacterActions.setFilter(id, value))
+	}
 
-		if(param) {
-			param.name = id
-			param.value = value
-		} else {
-			setParams([{
-				name: id,
-				value: value
-			}])
-		}
+	function handleForm(e) {
+		e.preventDefault()
+
+		getCharacters()
+
+		dispatch(CharacterActions.setPageAndOffset(1, 0))
+	}
+
+	function removeFilters(e) {
+		e.preventDefault()
+
+		document.getElementById('nameStartsWith').value = ''
+        
+		dispatch(CharacterActions.setPageAndOffset(1, 0))
+		dispatch(CharacterActions.removeFilter())
 	}
 
 	return (
 		<Layout>
-			<>
+			<div>
 				<Row>
-					<Col>
-						<form onSubmit={(e) => getCharactersFilter(e)}>
+					<Col
+						l={4}
+						m={6}
+						s={12}
+						offset="l4 m3"
+					>
+						<form onSubmit={(e) => handleForm(e) }>
 							<TextInput
 								s={12}
 								icon={<Icon>search</Icon>}
 								id="nameStartsWith"
 								label="Buscar"
-								value={params.name}
+								value={characters.filter.nameStartsWith}
 								onChange={(e) => handleParams(e.target)}
 								required
 							/>
@@ -110,8 +90,19 @@ const Characters = ({ location, characters, dispatch }) => {
 								waves="light"
 								flat
 							>
-                            Buscar
+                                Buscar
 							</Button>
+							{
+								characters.filter[0] ?
+									<Button
+										waves="light"
+										flat
+										onClick={(e) => removeFilters(e)}
+									>
+										Limpar<Icon right>close</Icon>
+									</Button>
+									: null
+							}
 						</form>
 					</Col>
 				</Row>
@@ -130,10 +121,16 @@ const Characters = ({ location, characters, dispatch }) => {
 										>
 											<Card
 												className="responsive-card hoverable"
-												header={<CardTitle image={character.thumbnail.path + '.' + character.thumbnail.extension}/>}
-												actions={[<Link className="red-text text-darken-4" key={1} to={`/character/${character.id}`}>Ver personagem</Link>]}
-												revealIcon={<Icon>more_vert</Icon>}
-												closeIcon={<Icon>close</Icon>}
+												header={<CardTitle image={`${character.thumbnail.path}.${character.thumbnail.extension}`}/>}
+												actions={[
+													<Link
+														className="red-text text-darken-4"
+														key={1}
+														to={`/character/${character.id}`}
+													>
+                                                        Ver personagem
+													</Link>
+												]}
 											>
 												{character.name}
 											</Card>
@@ -144,9 +141,9 @@ const Characters = ({ location, characters, dispatch }) => {
 							<Row>
 								<Pagination
 									activePage={characters.page}
-									items={characters.items.length}
+									items={characters.total}
 									leftBtn={<Icon >chevron_left</Icon>}
-									maxButtons={8}
+									maxButtons={characters.total <= 9 ? 1 : 5}
 									rightBtn={<Icon>chevron_right</Icon>}
 									onSelect={(value) => handlePagination(value)}
 								/>
@@ -155,16 +152,14 @@ const Characters = ({ location, characters, dispatch }) => {
 						:
 						null
 				}
-			</>
+			</div>
 		</Layout>
 	)             
 }
 
 Characters.propTypes = {
 	dispatch: PropTypes.func,
-	characters: PropTypes.object,
-	location: PropTypes.object,
-	history: PropTypes.object
+	characters: PropTypes.object
 }
 
 export default connect( state => ({ characters: state.characters }) )(Characters)

@@ -1,7 +1,8 @@
-export function setCharacters(characters) {
+export function setCharacters(characters, total) {
 	return {
 		type: 'SET_CHARACTER',
-		characters
+		characters,
+		total
 	}
 }
 
@@ -10,6 +11,20 @@ export function setPageAndOffset(page, offset) {
 		type: 'SET_PAGE',
 		page,
 		offset
+	}
+}
+
+export function setFilter(name, value) {
+	return {
+		type: 'SET_FILTER',
+		name,
+		value
+	}
+}
+
+export function removeFilter() {
+	return {
+		type: 'REMOVE_FILTER'
 	}
 }
 

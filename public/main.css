@@ -206,6 +206,13 @@ main {
     padding: 0 0.4rem;
     display: inline-block;
 }
+
+@media screen and (max-width: 899px) {
+    .marvel, .studios {
+        font-size: 4rem;
+    }
+}
+
 .studios {
     font-weight: 500;
     letter-spacing: -0.3rem;

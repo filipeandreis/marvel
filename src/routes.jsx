@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
 
 import NotFound from './errors/views/NotFound.jsx'
 import Home from './views/Home.jsx'
@@ -8,8 +9,10 @@ import Characters from './views/Characters.jsx'
 import Character from './views/Character.jsx'
 import CharacterEdit from './views/CharacterEdit.jsx'
 
+export const history = createBrowserHistory()
+
 const Routes = () => (
-	<BrowserRouter>
+	<BrowserRouter history={history}>
 		<Switch>
 			<Route exact path="/" component={Home} />
 			<Route exact path="/characters" component={Characters} />
