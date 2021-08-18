@@ -1,14 +1,11 @@
 {
-  "name": "marvel-frontend",
+  "name": "marvel-personagens",
   "author": "Filipe Cara Andreis",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
-    "history": "^5.0.1",
+    "dotenv": "^10.0.0",
     "material-icons": "^1.1.1",
     "materialize-css": "^1.0.0",
     "react": "^17.0.2",
@@ -46,9 +43,14 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "enzyme": "^3.11.0",
+    "enzyme-to-json": "^3.6.2",
     "eslint": "^7.30.0",
-    "eslint-plugin-react": "^7.24.0"
+    "eslint-plugin-react": "^7.24.0",
+    "redux-mock-store": "^1.5.4"
   }
 }

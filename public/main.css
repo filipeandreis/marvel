@@ -498,20 +498,20 @@ main {
 }
 /* END BOTÃO HOME */
 
-.char-name {
+.character-name {
     font-size: 1.8rem;
     color: var(--gray-text);
     margin-top: 10px;
     font-weight: 600;
 }
 
-.char-description {
+.character-description {
     color: var(--gray-text);
     width: 80%;
     margin: 15px auto;
 }
 
-.char-id {
+.character-id {
     color: var(--gray-text);
 }
 
@@ -525,58 +525,53 @@ main {
     color: var(--gray-text);
 }
 
-.char-profile {
+.character-profile {
     margin-top: 15vh;
 }
 
-.char-profile-edit {
+.character-profile-edit {
     margin-top: 15vh;
 }
 
 @media screen and (max-width: 1200px) {
-    .char-profile-edit {
+    .character-profile-edit {
         margin-top: 5vh;
     }
 }
 
-
-.profile-img {
+.character-img {
     position: relative;
     margin-top: -11vh;
     box-shadow: 5px 8px 15px;
-    width: 15%;
+    max-width: 20rem;
 }
 
 .list-series {
     padding: 10px 0 10px 0;
 }
 
-.char-profile {
-    margin-top: 15vh;
-}
-
-.profile-img {
+.character-img {
     width: 35%;
 }
 
 @media screen and (min-width: 700px) {
-    .profile-img {
+    .character-img {
         width: 30%;
     }
 }
 
 @media screen and (min-width: 1365px) {
-    .profile-img {
+    .character-img {
         width: 30%;
     }
 
-    .char-profile {
+    .character-profile {
         margin-top: 18vh;
     }
 }
 
 @media screen and (min-width: 1600px) {
-    .char-profile {
+    .character-profile {
         margin-top: 20vh;
     }
 }

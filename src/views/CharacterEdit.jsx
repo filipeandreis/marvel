@@ -61,7 +61,7 @@ const CharacterEdit = ({ match, characters, dispatch }) => {
     
 	return (
 		<Layout>
-			<div className="char-profile-edit">
+			<div className="character-profile-edit">
 				{
 					character.id ?
 						<Animated

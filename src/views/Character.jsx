@@ -8,6 +8,7 @@ import api from '../services/api'
 import { Animated } from 'react-animated-css'
 import backgroundImage from '../assets/images/background-profile.png'
 import { connect } from 'react-redux'
+import { CharacterException } from '../errors/Exceptions'
 
 const Character = ({ match, characters }) => {
 	const [id] = React.useState(match.params.id)
@@ -41,36 +42,46 @@ const Character = ({ match, characters }) => {
 	}, [character, seriesPage])
 
 	async function getCharacterInfo(id) {
-		const response = await api.get(`characters/${id}?`, {
-			headers: {
-				'Content-Type': 'application/json'
+		try {
+			const response = await api.get(`characters/${id}?`, {
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+                    
+			if(response.data.data) {
+				setCharacter(response.data.data.results[0])
+    
+				document.title = `${response.data.data.results[0].name} - Marvel`
+			} else {
+				throw new CharacterException('Erro ao buscar dados do personagem')
 			}
-		})
-                
-		if(response.data.data) {
-			setCharacter(response.data.data.results[0])
-
-			document.title = `${response.data.data.results[0].name} - Marvel`
-		} else {
+		} catch (error) {
 			<Redirect to="/characters" />
 		}
 	}
 
 	async function getCharacterSeries(id) {
-		const response = await api.get(`characters/${id}/series?limit=${seriesPage}&offset=${seriesOffset}&orderBy=-modified`, {
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		})
-                
-		if(response.data.data) {
-			if(response.data.data.results.length < 20) {
-				setSeries((currentSeries) => currentSeries.concat(response.data.data.results))
-				setLockBtnLoadMore(true)
+		try {
+			const response = await api.get(`characters/${id}/series?limit=${seriesPage}&offset=${seriesOffset}&orderBy=-modified`, {
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+                    
+			if(response.data.data) {
+				if(response.data.data.results.length < 20) {
+					setSeries((currentSeries) => currentSeries.concat(response.data.data.results))
+					setLockBtnLoadMore(true)
+				} else {
+					setSeries((currentSeries) => currentSeries.concat(response.data.data.results))
+					setLockBtnLoadMore(false)
+				}
 			} else {
-				setSeries((currentSeries) => currentSeries.concat(response.data.data.results))
-				setLockBtnLoadMore(false)
+				throw new CharacterException('Erro ao buscar séries')
 			}
+		} catch (error) {
+			error.throwMessage()
 		}
 	}
 
@@ -82,7 +93,7 @@ const Character = ({ match, characters }) => {
 
 	return (
 		<Layout>
-			<div className="char-profile">
+			<div className="character-profile">
 				{
 					character.id ?
 						<Animated
@@ -101,14 +112,14 @@ const Character = ({ match, characters }) => {
 								className="center-align"
 							>
 								<img
-									className="profile-img"
+									className="character-img"
 									draggable="false"
 									src={character.thumbnail.path + '.' + character.thumbnail.extension}
 								/>
 							</Animated>
 							<Row>
-								<p className="char-name">{character.name}</p>
-								<small className="char-id">ID: {character.id}</small>
+								<p data-testid="character-name" className="character-name">{character.name}</p>
+								<small className="character-id">ID: {character.id}</small>
 							</Row>
 							<Row>
 								<Link
@@ -119,7 +130,7 @@ const Character = ({ match, characters }) => {
 								</Link>
 							</Row>
 							<Row>
-								<p className="char-description">{character.description}</p>
+								<p className="character-description">{character.description}</p>
 							</Row>
 							<Row>
 								<Col

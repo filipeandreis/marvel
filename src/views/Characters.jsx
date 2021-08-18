@@ -7,6 +7,7 @@ import api from '../services/api'
 import { Animated } from 'react-animated-css'
 import { connect } from 'react-redux'
 import * as CharacterActions from '../store/actions/character'
+import { CharacterException } from '../errors/Exceptions'
 
 const Characters = ({ characters, dispatch }) => {
 	React.useEffect(() => {
@@ -18,22 +19,28 @@ const Characters = ({ characters, dispatch }) => {
 	}, [characters.page, characters.filter])
     
 	async function getCharacters() {
-		var url = `characters?orderBy=-modified&limit=${9}&offset=${characters.offset}`
-        
-		if(characters.filter[0] && characters.filter[0].name) {
-			for(var param of characters.filter) {
-				url = url.concat(`&${param.name}=${param.value}`)
+		try {
+			var url = `characters?orderBy=-modified&limit=${9}&offset=${characters.offset}`
+            
+			if(characters.filter[0] && characters.filter[0].name) {
+				for(var param of characters.filter) {
+					url = url.concat(`&${param.name}=${param.value}`)
+				}
 			}
-		}
-
-		const response = await api.get(url, {
-			headers: {
-				'Content-Type': 'application/json'
+    
+			const response = await api.get(url, {
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+    
+			if(response.data.data) {
+				dispatch(CharacterActions.setCharacters(response.data.data.results, response.data.data.total))
+			} else {
+				throw new CharacterException('Erro ao buscar personagens')
 			}
-		})
-
-		if(response.data.data) {
-			dispatch(CharacterActions.setCharacters(response.data.data.results, response.data.data.total))
+		} catch (error) {
+			error.throwMessage()
 		}
 	}
 
