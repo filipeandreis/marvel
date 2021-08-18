@@ -2,6 +2,7 @@
   "name": "marvel-personagens",
   "author": "Filipe Cara Andreis",
   "version": "1.0.0",
+  "main": "dist/index.js",
   "private": true,
   "dependencies": {
     "axios": "^0.21.1",
