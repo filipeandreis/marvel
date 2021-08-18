@@ -2,13 +2,14 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Row, Col, CardPanel, Divider, Button } from 'react-materialize'
-import Layout from '../layouts/default'
-import api from '../services/api'
+import { Row, Col, CardPanel, Divider, Button, Icon } from 'react-materialize'
+import Layout from '../../layouts/Default/Default.jsx'
+import api from '../../services/api'
 import { Animated } from 'react-animated-css'
-import backgroundImage from '../assets/images/background-profile.png'
+import backgroundImage from '../../assets/images/background-profile.png'
 import { connect } from 'react-redux'
-import { CharacterException } from '../errors/Exceptions'
+import { CharacterException } from '../../errors/Exceptions'
+import './character.css'
 
 const Character = ({ match, characters }) => {
 	const [id] = React.useState(match.params.id)
@@ -17,7 +18,7 @@ const Character = ({ match, characters }) => {
 	const [seriesPage, setSeriesPage] = React.useState(20)
 	const [seriesOffset, setSeriesOffset] = React.useState(0)
 	const [lockBtnLoadMore, setLockBtnLoadMore] = React.useState(true)
-
+    
 	React.useEffect(() => {
 		document.title = 'Personagem - Marvel'
 
@@ -127,6 +128,15 @@ const Character = ({ match, characters }) => {
 									to={`/character-edit/${id}`}
 								>
                                     Editar
+								</Link>
+							</Row>
+							<Row>
+								<Link
+									className="btn-flat waves-effect waves-light"
+									waves="light"
+									to="/characters"
+								>
+									<Icon left>reply</Icon>Voltar
 								</Link>
 							</Row>
 							<Row>

@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Menu from '../components/NavBar.jsx'
-import Loader from '../components/Loader.jsx'
-import Footer from '../components/Footer'
+import Menu from '../../components/NavBar/NavBar.jsx'
+import Loader from '../../components/Loader/Loader.jsx'
+import Footer from '../../components/Footer/Footer.jsx'
+import './default.css'
 
 const Default = ({ children }) => {
 	return (

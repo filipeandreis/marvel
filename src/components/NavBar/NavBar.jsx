@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Icon, Navbar } from 'react-materialize'
-import logo from '../assets/images/logo.jpg'
+import logo from '../../assets/images/logo.jpg'
+import './navBar.css'
 
 const NavBar = () => {
 	return (
@@ -12,7 +13,7 @@ const NavBar = () => {
 				alignLinks="left"
 				brand={<img draggable="false" className="logo-home" width="140px" alt="Marvel" src={logo} />}
 				centerLogo
-				menuIcon={<Icon className="hide">menu</Icon>}
+				menuIcon={<Icon>menu</Icon>}
 			>
 				<Link to='/'>
                     Home
@@ -21,8 +22,6 @@ const NavBar = () => {
                     Personagens
 				</Link>
 			</Navbar>
-			<div className="hide-on-med-and-up">
-			</div>
 		</div>
 	)
 }

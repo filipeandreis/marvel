@@ -1,6 +1,7 @@
 import React from 'react'
 import { ProgressBar } from 'react-materialize'
 import { Animated } from 'react-animated-css'
+import './loader.css'
 
 const Loader = () => {
 	return (

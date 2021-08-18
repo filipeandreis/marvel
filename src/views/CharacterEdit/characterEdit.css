@@ -1,0 +1,9 @@
+.character-profile-edit {
+    margin-top: 15vh;
+}
+
+@media screen and (max-width: 1200px) {
+    .character-profile-edit {
+        margin-top: 5vh;
+    }
+}

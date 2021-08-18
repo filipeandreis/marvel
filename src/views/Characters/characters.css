@@ -1,0 +1,15 @@
+.card-edit-character {
+    padding: 20px;
+}
+
+@media screen and (min-width: 1024px) {
+    .character-card {
+        padding: 15px !important;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .character-card {
+        padding: 20px !important;
+    }
+}

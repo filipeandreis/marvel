@@ -2,14 +2,15 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import api from '../services/api'
-import { Row, Col, CardPanel, Button, TextInput } from 'react-materialize'
-import Layout from '../layouts/default'
+import api from '../../services/api'
+import { Row, Col, CardPanel, Button, TextInput, Icon } from 'react-materialize'
+import Layout from '../../layouts/Default/Default.jsx'
 import { Animated } from 'react-animated-css'
 import { connect } from 'react-redux'
 import M from 'materialize-css'
-import * as CharacterActions from '../store/actions/character'
-import backgroundImage from '../assets/images/background-profile.png'
+import * as CharacterActions from '../../store/actions/character'
+import backgroundImage from '../../assets/images/background-profile.png'
+import './characterEdit.css'
 
 const CharacterEdit = ({ match, characters, dispatch }) => {
 	const [character, setCharacter] = React.useState({})
@@ -24,7 +25,6 @@ const CharacterEdit = ({ match, characters, dispatch }) => {
 		} else {
 			getCharacterInfo(match.params.id)
 		}
-
 	}, [])
 
 	async function getCharacterInfo(id) {
@@ -51,11 +51,7 @@ const CharacterEdit = ({ match, characters, dispatch }) => {
 
 		M.toast({
 			classes: 'green darken-2',
-			html:`
-                <p>
-                    Personagem salvo!
-                </p>
-            `
+			html:'<p>Personagem salvo</p>'
 		})
 	}
     
@@ -113,7 +109,7 @@ const CharacterEdit = ({ match, characters, dispatch }) => {
 												waves="light"
 												onClick={() => { save() }}
 											>
-                                            Salvar
+                                                Salvar
 											</Button>
 										</Row>
 									</CardPanel>
@@ -123,7 +119,7 @@ const CharacterEdit = ({ match, characters, dispatch }) => {
 											waves="light"
 											to={`/character/${character.id}`}
 										>
-                                        Voltar
+											<Icon left>reply</Icon>Voltar
 										</Link>
 									</Row>
 								</Col>

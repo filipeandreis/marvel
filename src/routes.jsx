@@ -3,10 +3,10 @@ import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import NotFound from './errors/views/NotFound.jsx'
-import Home from './views/Home.jsx'
-import Characters from './views/Characters.jsx'
-import Character from './views/Character.jsx'
-import CharacterEdit from './views/CharacterEdit.jsx'
+import Home from './views/Home/Home.jsx'
+import Characters from './views/Characters/Characters.jsx'
+import Character from './views/Character/Character.jsx'
+import CharacterEdit from './views/CharacterEdit/CharacterEdit.jsx'
 
 const Routes = () => (
 	<BrowserRouter>

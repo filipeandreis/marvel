@@ -1,8 +1,9 @@
 import React from 'react'
 import { Animated } from 'react-animated-css'
 import { Icon } from 'react-materialize'
-import Menu from '../components/NavBar'
+import Menu from '../../components/NavBar/NavBar'
 import { Link } from 'react-router-dom'
+import './home.css'
 
 const Home = () => {
 	React.useEffect(() => {

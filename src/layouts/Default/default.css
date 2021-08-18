@@ -1,0 +1,13 @@
+.sticky-footer {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.layout-pages {
+    padding-top: 100px !important;
+    height: 100%;
+    width: 100%;  
+    top: 0px;
+    left: 0px;
+}

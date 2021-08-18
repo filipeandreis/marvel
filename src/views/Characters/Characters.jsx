@@ -2,12 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Row, Col, Icon, Card, CardTitle, TextInput, Button, Pagination } from 'react-materialize'
-import Layout from '../layouts/default'
-import api from '../services/api'
+import Layout from '../../layouts/Default/Default.jsx'
+import api from '../../services/api'
+import M from 'materialize-css'
 import { Animated } from 'react-animated-css'
 import { connect } from 'react-redux'
-import * as CharacterActions from '../store/actions/character'
-import { CharacterException } from '../errors/Exceptions'
+import * as CharacterActions from '../../store/actions/character'
+import { CharacterException } from '../../errors/Exceptions'
+import './characters.css'
 
 const Characters = ({ characters, dispatch }) => {
 	React.useEffect(() => {
@@ -34,9 +36,16 @@ const Characters = ({ characters, dispatch }) => {
 				}
 			})
     
-			if(response.data.data) {
+			if(response.data.data.total > 0) {
 				dispatch(CharacterActions.setCharacters(response.data.data.results, response.data.data.total))
-			} else {
+			}
+			else if(response.data.data.total === 0) {
+				M.toast({
+					classes: 'red darken-2',
+					html:'<p>Personagem não encontrado</p>'
+				})
+			}
+			else {
 				throw new CharacterException('Erro ao buscar personagens')
 			}
 		} catch (error) {
@@ -83,12 +92,12 @@ const Characters = ({ characters, dispatch }) => {
 						s={12}
 						offset="l4 m3"
 					>
-						<form onSubmit={(e) => handleForm(e) }>
+						<form onSubmit={(e) => handleForm(e)}>
 							<TextInput
 								s={12}
 								icon={<Icon>search</Icon>}
 								id="nameStartsWith"
-								label="Buscar"
+								label="Buscar personagem"
 								value={characters.filter.nameStartsWith}
 								onChange={(e) => handleParams(e.target)}
 								required
@@ -124,23 +133,19 @@ const Characters = ({ characters, dispatch }) => {
 											l={4}
 											m={6}
 											s={12}
-											className="cards-home"
+											className="character-card"
 										>
-											<Card
-												className="responsive-card hoverable"
-												header={<CardTitle image={`${character.thumbnail.path}.${character.thumbnail.extension}`}/>}
-												actions={[
-													<Link
-														className="red-text text-darken-4"
-														key={1}
-														to={`/character/${character.id}`}
-													>
-                                                        Ver personagem
-													</Link>
-												]}
+											<Link
+												className="grey-text text-darken-2"
+												to={`/character/${character.id}`}
 											>
-												{character.name}
-											</Card>
+												<Card
+													className="hoverable"
+													header={<CardTitle image={`${character.thumbnail.path}.${character.thumbnail.extension}`}/>}
+												>
+													{character.name}
+												</Card>
+											</Link>
 										</Col>
 									))
 								}
