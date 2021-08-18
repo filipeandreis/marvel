@@ -5,6 +5,12 @@ Projeto criado seguindo os requisitos definidos por e-mail.
 
 ## Informações
 
+### Instalação e Execução
+
+- Criar o arquivo `.env` na raiz com as credenciais
+- Instalar os pacotes com `npm install`
+- Startar o projeto com `npm start` ou `npm run build`
+
 ### Marvel API
 Para que a aplicação funcione, é necessário criar um arquivo `.env` na raiz do projeto (existe um arquivo com o nome .env.example que deve ser usado como base) e adicionar os dados da API.
 
