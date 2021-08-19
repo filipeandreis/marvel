@@ -22,6 +22,8 @@ const Character = ({ match, characters }) => {
 	React.useEffect(() => {
 		document.title = 'Personagem - Marvel'
 
+		window.scrollTo(0,0)
+
 		if(characters.items[0]) {
 			const char = characters.items.find((character) => character.id == match.params.id)
 
@@ -33,7 +35,6 @@ const Character = ({ match, characters }) => {
 		} else {
 			getCharacterInfo(id)
 		}
-
 	}, [])
 
 	React.useEffect(() => {
