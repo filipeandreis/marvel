@@ -1,7 +1,4 @@
 # React - Marvel
-Desafio Softplan.
-
-Projeto criado seguindo os requisitos definidos por e-mail.
 
 ## Informações
 
